@@ -33,7 +33,6 @@ score_options = [
 ]
 
 estratos_orden = sorted(df[estrato_col].dropna().unique())
-print(df["fami_estratovivienda"])
 
 # -------------------------
 # DISEÑO DEL DASHBOARD
@@ -255,6 +254,43 @@ def update_estrato(score_col, tipo_grafico):
 
     graph = dcc.Graph(figure=fig)
 
+    # HISTOGRAMA
+    # -----------------------------
+    colores_estrato = {
+    1.0: "#3B5BDB",
+    2.0: "#C92A2A",
+    3.0: "#2B8A3E",
+    4.0: "#5F3DC4",
+    5.0: "#D9480F",
+    6.0: "#0B7285"
+    }
+
+    fig_hist = px.histogram(
+        df,
+        x=score_col,
+        color="fami_estratovivienda",
+        nbins=40,
+        histnorm="probability density", #Normalizar como densidad, comparar distribuciones con tamaños distintos
+        opacity=0.55,
+        barmode="overlay",
+        color_discrete_map= colores_estrato,
+        labels={
+            "fami_estratovivienda": "Estrato",
+            score_col: "Puntaje"
+        },
+        title=f"Distribución de {score_col} por Estrato"
+    )
+
+    fig_hist.update_layout(
+        template="simple_white",
+        legend_title="Estrato (clic para ocultar/mostrar)",
+        yaxis_title="Frecuencia"
+    )
+
+    fig_hist.update_traces(marker_line_width=0)
+
+    graph_hist = dcc.Graph(figure=fig_hist)
+
     # CONCLUSIÓN
     # -----------------------------
 
@@ -274,6 +310,7 @@ def update_estrato(score_col, tipo_grafico):
     return html.Div([
         kpis,
         graph,
+        graph_hist,
         conclusion
     ])
 
@@ -302,11 +339,21 @@ def update_tiempo(estratos_seleccionados):
     promedios["periodo"] = pd.Categorical(promedios["periodo"], categories=orden_periodos, ordered=True)
 
     # 3) Línea (leyenda = “checkboxes”)
+    colores_estrato = {
+    1.0: "#3B5BDB",
+    2.0: "#C92A2A",
+    3.0: "#2B8A3E",
+    4.0: "#5F3DC4",
+    5.0: "#D9480F",
+    6.0: "#0B7285"
+    }
     fig = px.line(
         promedios.sort_values("periodo"),
         x="periodo",
         y="punt_global",
         color="fami_estratovivienda",
+        category_orders={"periodo": orden_periodos},
+        color_discrete_map=colores_estrato,
         markers=True,
         labels={
             "periodo": "Periodo",
@@ -429,6 +476,25 @@ def update_tiempo(estratos_seleccionados):
 )
 def update_jornada(score_col):
 
+    orden_jornada = [
+    "COMPLETA",
+    "UNICA",
+    "MAÑANA",
+    "TARDE",
+    "SABATINA",
+    "NOCHE"
+    ]
+
+    # COLORES FIJOS (mismos para todos los gráficos)
+    colores_jornada = {
+        "COMPLETA": "#3B5BDB",  # azul
+        "UNICA": "#C92A2A",     # rojo
+        "MAÑANA": "#2B8A3E",    # verde
+        "TARDE": "#5F3DC4",     # morado
+        "SABATINA": "#D9480F",  # naranja
+        "NOCHE": "#0B7285"      # azul claro
+    }
+
     # -----------------------------
     # KPIs
     # -----------------------------
@@ -479,66 +545,42 @@ def update_jornada(score_col):
         df,
         x="cole_jornada",
         y=score_col,
+        category_orders={"cole_jornada (click para ocultar/mostrar)": orden_jornada},
         color="cole_jornada",
+        color_discrete_map=colores_jornada,
         template="simple_white",
         title=f"{score_col} por Jornada Académica"
     )
     fig_box.update_traces(boxmean=True)
+
+
     graph_box = dcc.Graph(figure=fig_box)
 
     # -----------------------------
     # GRÁFICO DE BARRAS (medias)
     # -----------------------------
-    resumen_sorted = resumen.sort_values("mean", ascending=False)
+    resumen = df.groupby("cole_jornada")["punt_global"].mean().reset_index()
+    resumen["cole_jornada"] = pd.Categorical(
+    resumen["cole_jornada"],
+    categories=orden_jornada,
+    ordered=True
+    )
+
+    resumen = resumen.sort_values("cole_jornada")
 
     fig_bar = px.bar(
-        resumen_sorted,
+        resumen,
         x="cole_jornada",
-        y="mean",
+        y="punt_global",
+        category_orders={"cole_jornada (click para ocultar/mostrar)": orden_jornada},
         color="cole_jornada",
+        color_discrete_map=colores_jornada,
         template="simple_white",
         title="Promedio por Jornada"
     )
+    
     graph_bar = dcc.Graph(figure=fig_bar)
 
-    # -----------------------------
-    # GRÁFICO CONDICIONADO POR MATEMÁTICAS
-    # -----------------------------
-    df["math_bin"] = pd.cut(df["punt_matematicas"], bins=10)
-
-    mean_by_bin = (
-        df.groupby(["math_bin","cole_jornada"])["punt_global"]
-        .mean()
-        .reset_index()
-    )
-
-    mean_by_bin["math_bin_mid"] = mean_by_bin["math_bin"].apply(lambda x: x.mid)
-
-    fig_line = px.line(
-        mean_by_bin,
-        x="math_bin_mid",
-        y="punt_global",
-        color="cole_jornada",
-        markers=True,
-        template="simple_white",
-        title="Promedio Global condicionado por Matemáticas y Jornada"
-    )
-
-    graph_line = dcc.Graph(figure=fig_line)
-
-    # -----------------------------
-    # DESCRIPCIÓN METODOLÓGICA
-    # -----------------------------
-    descripcion = html.Div([
-        html.H5("Descripción Metodológica"),
-        html.P(
-            "Para analizar cómo cambia el puntaje global según el desempeño en Matemáticas y la jornada académica, "
-            "se dividió la variable punt_matematicas en 10 intervalos (bins). Posteriormente, se calculó el "
-            "promedio del puntaje global dentro de cada intervalo para cada jornada. "
-            "Esto permite observar si la relación entre Matemáticas y el puntaje global "
-            "presenta diferencias estructurales entre jornadas."
-        )
-    ], style={"marginTop":"20px"})
 
     # -----------------------------
     # CONCLUSIÓN
@@ -558,8 +600,6 @@ def update_jornada(score_col):
         html.Br(),
         graph_bar,
         html.Br(),
-        graph_line,
-        descripcion,
         conclusion
     ])
 
