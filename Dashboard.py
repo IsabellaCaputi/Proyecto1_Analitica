@@ -19,9 +19,11 @@ server = app.server
 # CARGAR DATOS
 # -------------------------
 
-df = pd.read_csv("Datos_Salida_Extraccion/Datos_Saber11_Limpio.csv")
+df = pd.read_csv("Datos_Salida_Extraccion/saber11_limpio.csv")
 
 estrato_col = "fami_estratovivienda"
+
+print(f"dimensiones data frame",{df.shape})
 
 score_options = [
     "punt_global",
@@ -284,7 +286,7 @@ def update_estrato(score_col, tipo_grafico):
     fig_hist.update_layout(
         template="simple_white",
         legend_title="Estrato (clic para ocultar/mostrar)",
-        yaxis_title="Frecuencia"
+        yaxis_title="Probabilidad"
     )
 
     fig_hist.update_traces(marker_line_width=0)
