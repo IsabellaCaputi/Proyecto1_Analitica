@@ -471,7 +471,7 @@ def update_tiempo(estratos_seleccionados):
         conclusion
     ])
 
-#sección 3: rESULTADOS POR JORNADA
+#sección 3: RESULTADOS POR JORNADA
 @app.callback(
     Output("contenido-jornada", "children"),
     Input("score-col-jornada", "value")
