@@ -47,7 +47,7 @@ Proyecto1_Analitica/
 
 | Directorio | Descripción |
 |-----------|-----------|
-| **Tarea 2 - Limpieza_Datos/** | Notebook Jupyter con el proceso de limpieza y transformación de datos (ETL) |
+| **Tarea 2 - Limpieza_Datos/** | Notebook Jupyter con el proceso de limpieza y transformación de datos |
 | **Tarea 6 - Despliegue/** | Dashboard listo para producción y documentación de despliegue |
 | **Datos_Salida_Extraccion/** | Datos fuente (originales de AWS) y datos limpios en formato CSV |
 | **Soportes/** | Material de soporte académico, referencias y documentación técnica |
@@ -72,8 +72,8 @@ El proyecto requiere las siguientes librerías Python:
 | Integrante | Rol |
 |-----------|-----|
 | **Isabella Caputi** | Análisis de negocio, Análisis de datos, Ingeniería de datos |
-| **Sofia Vásquez** | Análisis de negocio, Análisis de datos, Despliegue y mantenimiento |
 | **Maria Paula Ospina** | Análisis de negocio, Análisis de datos, Tablero de datos |
+| **Sofia Vásquez** | Análisis de negocio, Análisis de datos, Despliegue y mantenimiento |
 
 ---
 
