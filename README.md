@@ -23,22 +23,23 @@ Este proyecto implementa un dashboard interactivo que permite explorar y analiza
 ```
 Proyecto1_Analitica/
 │
-├── README.md                                # Este archivo
-├── Dashboard.py                             # Dashboard principal (raíz)
+├── README.md                                          # Este archivo
+├── Tarea 3 - Exploracion y analisis de datos.ipynb   # Análisis exploratorio de datos
+├── Tarea 4 - Dashboard.py                            # Dashboard principal
 │
-├── 📂 Despliegue/
-│   ├── Dashboard.py                         # Versión de despliegue del dashboard
-│   └── Evidencias de Maquina/              # Evidencias y documentación de deployment
+├── 📂 Tarea 2 - Limpieza_Datos/
+│   └── limpieza_proyecto1.ipynb                      # Notebook con proceso ETL
+│
+├── 📂 Tarea 6 - Despliegue/
+│   └── Dashboard.py                                  # Versión de despliegue del dashboard
 │
 ├── 📂 Datos_Salida_Extraccion/
-│   ├── Datos_AWS_Atlantico.csv             # Datos originales de AWS
-│   └── saber11_limpio.csv                  # Datos limpios y procesados
-│
-├── 📂 Limpieza_Datos/
-│   └── limpieza_proyecto1.ipynb            # Notebook con proceso ETL
+│   ├── Datos_AWS_Atlantico.csv                       # Datos originales de AWS
+│   └── saber11_limpio.csv                            # Datos limpios y procesados
 │
 └── 📂 Soportes/
-    └── Soporte_AnalisisDeDatos_Proyecto1.ipynb # Análisis exploratorio y soporte
+    ├── Soporte_AnalisisDeDatos_Proyecto1.ipynb       # Material de soporte y referencias
+    └── Soporte Despligue/                            # Documentación de despliegue
 
 ```
 
@@ -46,10 +47,10 @@ Proyecto1_Analitica/
 
 | Directorio | Descripción |
 |-----------|-----------|
-| **Despliegue/** | Archivos de producción y evidencia de despliegue |
-| **Datos_Salida_Extraccion/** | Datos fuente (originales) y limpios en formato CSV |
-| **Limpieza_Datos/** | Notebook Jupyter con el proceso de limpieza ETL |
-| **Soportes/** | Análisis exploratorio y documentación técnica |
+| **Tarea 2 - Limpieza_Datos/** | Notebook Jupyter con el proceso de limpieza y transformación de datos (ETL) |
+| **Tarea 6 - Despliegue/** | Dashboard listo para producción y documentación de despliegue |
+| **Datos_Salida_Extraccion/** | Datos fuente (originales de AWS) y datos limpios en formato CSV |
+| **Soportes/** | Material de soporte académico, referencias y documentación técnica |
 
 ---
 
