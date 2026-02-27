@@ -70,9 +70,9 @@ El proyecto requiere las siguientes librerías Python:
 
 | Integrante | Rol |
 |-----------|-----|
-| **Sofia Vásquez** | Análisis y limpieza de datos |
-| **Isabella Caputi** | Dashboard e interactividad |
-| **Maria Paula Ospina** | Análisis exploratorio y documentación |
+| **Isabella Caputi** | Análisis de negocio, Análisis de datos, Ingeniería de datos |
+| **Sofia Vásquez** | Análisis de negocio, Análisis de datos, Despliegue y mantenimiento |
+| **Maria Paula Ospina** | Análisis de negocio, Análisis de datos, Tablero de datos |
 
 ---
 
